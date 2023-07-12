@@ -44,8 +44,8 @@ class PetController extends Controller
         if ($status_adopt){
             $data = Pet::where('status_adopt',$status_adopt)->get();
         }
-        if ($color){
-            $data = Pet::where('color', 'LIKE', '%' .$color. '%')->get();
+        if ($color && $status_adopt){
+            $data = Pet::where('color', 'LIKE', '%' .$color. '%')->where('status_adopt',$status_adopt)->get();
         }if($categories_id && $status_adopt){
             $data = Pet::where('categories_id',$categories_id)->where('status_adopt',$status_adopt)->get();
         }
