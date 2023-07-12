@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatCattery;
 use App\Http\Controllers\API\AdoptionController;
 use App\Http\Controllers\API\AnnouncementController;
 use App\Http\Controllers\API\CategoryController;
@@ -18,6 +19,19 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/chat', [\App\Http\Controllers\Api\ChatsController::class, 'index']);
+Route::get('/getAllUser', [\App\Http\Controllers\Api\ChatsController::class, 'getAllUser']);
+Route::post('/messages', [\App\Http\Controllers\Api\ChatsController::class, 'sendMessageUser']);
+Route::post('/messages/{userId}', [\App\Http\Controllers\Api\ChatsController::class, 'sendMessageAdmin']);
+Route::get('/messages', [\App\Http\Controllers\Api\ChatsController::class, 'fetchMessages']);
+Route::get('/messages/{userId}', [\App\Http\Controllers\Api\ChatsController::class, 'fetchMessagesAdmin']);
+
+Route::get('/test-broadcast-event', function () {
+    ChatCattery::dispatch('ini adalah parameter message chat cattery');
+    
+    echo 'test broadcast event chat cattery';
+});
+
 Route::get('auth/role',\App\Http\Controllers\Api\Auth\RoleController::class);
 Route::post('auth/register', \App\Http\Controllers\Api\Auth\RegisterController::class);
 Route::post('auth/login', \App\Http\Controllers\Api\Auth\LoginController::class);
