@@ -114,6 +114,7 @@ class AdoptionController extends Controller
         $result = new AdoptionResource($adoption);
         return $this->sendResponse($result, 'Kucing berhasil diadopsi');
         }
+
         $status = $adoption->status;
         $result = [
             'message' => "Tidak bisa adopsi. Status:$status",
@@ -148,5 +149,20 @@ class AdoptionController extends Controller
             return $this->sendResponse($result, 'Kucing berhasil diadopsi');
         }
 
+    }
+    public function reject(Adoption $adoption)
+    {
+        if($adoption->status == 'review'){
+        $pet = $adoption->pet;
+        if($pet->status == 'adopted'){
+            $result = [
+                'message' => "Tidak bisa adopsi kucing sudah diadopsi",
+            ];
+            return response()->json($result, Response::HTTP_BAD_REQUEST);
+        }
+        $adoption->update(['status' => 'reject']);
+        $result = new AdoptionResource($adoption);
+        return $this->sendResponse($result, 'Form berhasil di reject');
+        }
     }
 }

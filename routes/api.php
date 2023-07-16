@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::get('/chat', [\App\Http\Controllers\Api\ChatsController::class, 'index']);
 Route::get('/getAllUser', [\App\Http\Controllers\Api\ChatsController::class, 'getAllUser']);
 Route::post('/messages', [\App\Http\Controllers\Api\ChatsController::class, 'sendMessageUser']);
@@ -45,6 +46,7 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 Route::middleware('auth:sanctum','abilities')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('adoptions/{adoption}/reject',[AdoptionController::class , 'reject']);
 Route::post('adoptions/{adoption}/adopt',[AdoptionController::class , 'adopt']);
 Route::post('adoptions/adopt',[AdoptionController::class , 'markAsAdopt']);
 Route::post('pets/{pet}',[PetController::class , 'update']);
