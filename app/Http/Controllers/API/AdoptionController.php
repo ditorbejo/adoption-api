@@ -26,12 +26,29 @@ class AdoptionController extends Controller
     {
         $user_id= $request->query('user_id');
         $status = $request->query('status');
+        $name_adopter = $request->query('name_adopter');
+        $pet_id = $request->query('pet_id');
         
         if($user_id){
-            $data = Adoption::where('user_id',$user_id)->get();
+            $data = Adoption::where('user_id',$user_id)->latest()->get();
         }
         if($status){
-            $data = Adoption::where('status',$status)->get();
+            $data = Adoption::where('status',$status)->latest()->get();
+        }
+        if($pet_id && $status){
+            $data = Adoption::where('pet_id',$pet_id)->where('status',$status)->latest()->get();
+        }
+        if($name_adopter){
+            $data = Adoption::where('name_adopter',$name_adopter)->latest()->get();
+        }
+        if($name_adopter && $status){
+            $data = Adoption::where('name_adopter',$name_adopter)->where('status',$status)->latest()->get();
+        }
+        if($pet_id && $name_adopter && $status){
+            $data = Adoption::where('name_adopter',$name_adopter)->where('user_id',$user_id)->where('status',$status)->latest()->get();
+        }
+        if($status && $user_id){
+            $data = Adoption::where('status',$status)->where('user_id',$user_id)->latest()->get();
         }
         $result = AdoptionResource::collection($data);
         return $this->sendResponse($result, 'Berhasil mendapatkan data adoptions');
@@ -150,7 +167,7 @@ class AdoptionController extends Controller
         }
 
     }
-    public function reject(Adoption $adoption)
+    public function reject(Request $request, Adoption $adoption)
     {
         if($adoption->status == 'review'){
         $pet = $adoption->pet;
@@ -160,9 +177,28 @@ class AdoptionController extends Controller
             ];
             return response()->json($result, Response::HTTP_BAD_REQUEST);
         }
-        $adoption->update(['status' => 'reject']);
+        $adoption->update([
+            'status' => 'reject',
+            'reject' => $request->reject,
+        ]);
         $result = new AdoptionResource($adoption);
         return $this->sendResponse($result, 'Form berhasil di reject');
         }
+    }
+    public function checkHistoryUserAdopt(){
+        $roleAdmin = request()->user()->role;
+        if ($roleAdmin == 'admin') {
+            $historyAdopt = Adoption::where('status', 'approve')->get();
+            $unique = $historyAdopt->unique(function ($item) {
+                return $item['user_id '].$item['name_adopter'];
+            });
+            $result = AdoptionResource::collection($unique);
+        }else{
+            $user_id = request()->user()->id;
+            $historyAdopt = Adoption::where('status','approve')->where('user_id',$user_id)->latest()->get();
+            $result = AdoptionResource::collection($historyAdopt);
+        }
+       
+        return $this->sendResponse($result, 'Berhasil mendapatkan history adopt user');
     }
 }
