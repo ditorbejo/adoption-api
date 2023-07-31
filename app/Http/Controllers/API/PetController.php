@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePetsRequest;
 use App\Http\Requests\UpdatePetsRequest;
 use App\Http\Resources\PetsResource;
+use App\Models\Adoption;
 use App\Models\Pet;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class PetController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:sanctum']);
-        $this->middleware(['auth:sanctum','abilities:admin'])->except(['index','show']);
+        $this->middleware(['auth:sanctum','abilities:admin'])->except(['index','show','getAllColor','getPetForHalamanHome']);
     }
     /**
      * Display a listing of the resource.
@@ -43,6 +43,9 @@ class PetController extends Controller
         }
         if ($status_adopt){
             $data = Pet::where('status_adopt',$status_adopt)->get();
+        }
+        if ($pet_id){
+            $data = Pet::where('pet_id',$pet_id)->get();
         }
         if ($color && $status_adopt){
             $data = Pet::where('color', 'LIKE', '%' .$color. '%')->where('status_adopt',$status_adopt)->get();
@@ -146,5 +149,25 @@ class PetController extends Controller
         $result = Gallery::where('pet_id',$pet->id)->delete();
         $pet->delete();
         return $this->sendResponse($result, 'data berhasil dihapus');
+    }
+    public function getAllColor()
+    {
+        $colorPet = Pet::where('status_adopt','ready')->select('id', 'color')->get();
+        $uniqueColor = $colorPet->unique('color');
+        return $this->sendResponse($uniqueColor, 'Data Color Berhasil Diambil');
+    }
+    public function formAdoptionsPet(String $petId)
+    {
+        $pet = Pet::with('adoptions')->find($petId);
+        $adoptionsReview = $pet->adoptions->filter(function ($adoption) {
+            return $adoption->status === 'review';
+        })->take(5);
+        return $this->sendResponse($adoptionsReview, 'Data Berhasil Didapatkan');
+    }
+    public function getPetForHalamanHome()
+    {
+        $pet = Pet::where('status_adopt','ready')->latest()->take(5)->get();
+        $result = PetsResource::collection($pet);
+        return $this->sendResponse($result, 'Data Berhasil Didapatkan');
     }
 }

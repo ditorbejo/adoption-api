@@ -13,7 +13,6 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth:sanctum']);
         $this->middleware(['auth:sanctum','abilities:admin'])->only(['store','update','destroy']);
     }
     /**
