@@ -28,6 +28,8 @@ class AdoptionResource extends JsonResource
         'pet_image' => Storage::url($this->pet->image),
         'status_adopt' => $this->pet->status_adopt,
         'description' => $this->description,
+        'reject' => $this->reject,
+        'updated_at' => $this->updated_at->format('F d, Y'),
         ];
         
     }

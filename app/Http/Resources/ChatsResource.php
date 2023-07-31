@@ -15,13 +15,14 @@ class ChatsResource extends JsonResource
      */
     public function toArray($request)
     {
-        $user = User::find($this->admin_id);
+        $userAdmin = User::find($this->admin_id);
         if($this->admin_id == null){
             return [
                 'message' => $this->message,
                 'user_id' => $this->user_id ,
                 'admin_id' => $this->admin_id,
                 'user_name' => $this->user->name,
+                'created_at' => $this->created_at->format('F d, Y H:i'),
                 'role' => $this->user->role,
             ];
         }else{
@@ -29,8 +30,9 @@ class ChatsResource extends JsonResource
                 'message' => $this->message,
                 'user_id' => $this->user_id ,
                 'admin_id' => $this->admin_id,
-                'user_name' => $user->name,
-                'role' => $user->role,
+                'created_at' => $this->created_at->format('F d, Y H:i'),
+                'user_name' => $userAdmin->name,
+                'role' => $userAdmin->role,
             ];
         }
         

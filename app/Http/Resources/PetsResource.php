@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use DateTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,6 +16,9 @@ class PetsResource extends JsonResource
      */
     public function toArray($request)
     {
+        $dateBirth = $this->date_birth;
+        $dateTime = new DateTime($dateBirth);
+        $formattedDate = $dateTime->format("d F Y");
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -22,7 +26,8 @@ class PetsResource extends JsonResource
             'status_adopt' =>$this->status_adopt,
             'certificate' => $this->certificate,
             'color' => $this->color,
-            'date_birth' => $this->date_birth,
+            'date_birth' => $dateBirth,
+            'format_date_birth' => $formattedDate,
             'weight' => $this->weight,
             'description' => $this->description,
             'categories_id' => $this->category->id,
