@@ -10,10 +10,10 @@ class Adoption extends Model
     use HasFactory;
 
     protected $table = 'adoptions';
-    protected $fillable = ['name_adopter','phone_adopter','status','address_adopter','email','pet_id','user_id','description'];
+    protected $fillable = ['name_adopter','phone_adopter','status','address_adopter','email','pet_id','user_id','description','reject'];
 
     public function pet()
     {
-        return $this->belongsTo(Pet::class, 'pet_id'); # pet_id adalah foreign key
+        return $this->belongsTo(Pet::class, 'pet_id');
     }
 }
