@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/getAllColor',[PetController::class , 'getAllColor']);
 Route::get('/chat', [\App\Http\Controllers\Api\ChatsController::class, 'index']);
 Route::get('/getAllUser', [\App\Http\Controllers\Api\ChatsController::class, 'getAllUser']);
 Route::post('/messages', [\App\Http\Controllers\Api\ChatsController::class, 'sendMessageUser']);
@@ -41,15 +41,17 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
 
     return response()->json(['message' => 'Successfully logged out']);
 });
-#abilities semuanya
-#ability hanya salah satu dari parameter role
+
 Route::middleware('auth:sanctum','abilities')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('adoptions/checkHistoryUserAdopt',[AdoptionController::class , 'checkHistoryUserAdopt']);
 Route::post('adoptions/{adoption}/reject',[AdoptionController::class , 'reject']);
 Route::post('adoptions/{adoption}/adopt',[AdoptionController::class , 'adopt']);
 Route::post('adoptions/adopt',[AdoptionController::class , 'markAsAdopt']);
 Route::post('pets/{pet}',[PetController::class , 'update']);
+Route::get('pets/{petId}/adoptions',[PetController::class , 'formAdoptionsPet']);
+Route::get('pets/home',[PetController::class , 'getPetForHalamanHome']);
 Route::post('announcements/{announcement}',[AnnouncementController::class , 'update']);
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('pets', PetController::class);

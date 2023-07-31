@@ -24,6 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pet_id');
             $table->foreign('pet_id')->references('id')->on('pets');
             $table->text('description');
+            $table->text('reject')->nullable();
             $table->timestamps();
         });
     }
