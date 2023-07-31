@@ -22,8 +22,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = Category::all(); #semuadata
-        $result = CategoryResource::collection($data); #sortir data
+        $data = Category::all();
+        $result = CategoryResource::collection($data); 
         return $this->sendResponse($result, 'Successfull Get Category');
         
     }
@@ -36,8 +36,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $data = new CategoryResource(Category::create($request->validated())); #Category resource (sortir) baru yang berasal dari kategori yang dibuat
-        return $this->sendResponse($data, 'Data Berhasil ditambahkan');
+        $data = new CategoryResource(Category::create($request->validated()));
     }
 
     /**
@@ -48,12 +47,12 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $check = Category::find($category->id); #mencari kategori berdasarkan id
+        $check = Category::find($category->id); 
         if(!$check){ 
-            abort(404, 'Object not found'); #jika kategori id tidak ditemukan maka memunculkan 404 dan pesan object not found
+            abort(404, 'Object not found'); 
         }
 
-        $data = new CategoryResource($check); #kategori resource dari hasil kategori berdasarkan id
+        $data = new CategoryResource($check);
 
         return $this->sendResponse($data, 'Sukses mendapatkan kategori');
     }
