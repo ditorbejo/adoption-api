@@ -26,7 +26,7 @@ class StoreAnnouncementRequest extends FormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'image'=>'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

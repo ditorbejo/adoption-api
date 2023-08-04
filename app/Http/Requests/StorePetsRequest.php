@@ -28,12 +28,12 @@ class StorePetsRequest extends FormRequest
             'gender'=> 'required|in:male,female',
             'status_adopt'=>'required|in:ready,adopted',
             'certificate'=> 'required',
-            'color'=>'string',
+            'color'=>'required|string',
             'categories_id'=>'required',
             'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'date_birth'=>'date_format:Y-m-d',
-            'weight'=>'numeric|min:0',
-            'description' => 'string|max:500'
+            'date_birth'=>'required|date_format:Y-m-d',
+            'weight'=>'required|numeric|min:0',
+            'description' => 'required|string|max:500'
         ];
     }
 }

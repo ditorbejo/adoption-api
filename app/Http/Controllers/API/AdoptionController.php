@@ -177,10 +177,19 @@ class AdoptionController extends Controller
             ];
             return response()->json($result, Response::HTTP_BAD_REQUEST);
         }
-        $adoption->update([
-            'status' => 'reject',
-            'reject' => $request->reject,
-        ]);
+        $message = $request->reject;
+        if($message){
+            $adoption->update([
+                'status' => 'reject',
+                'reject' => $message,
+            ]);
+        }else{
+            $result = [
+                'message' => "pesan kosong",
+            ];
+            return response()->json($result, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
         $result = new AdoptionResource($adoption);
         return $this->sendResponse($result, 'Form berhasil di reject');
         }

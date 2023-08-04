@@ -30,7 +30,7 @@ class StoreAdoptionRequest extends FormRequest
             'user_id'=>'required',
             'email' => 'required',
             'pet_id' => 'required',
-            'description' => 'string|max:1000',
+            'description' => 'required|string|max:1000',
             'reject' => 'string|max:1000',
         ];
     }

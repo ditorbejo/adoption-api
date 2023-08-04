@@ -20,10 +20,10 @@ return new class extends Migration
             $table->enum('status_adopt', ['ready','adopted'])->default('ready');
             $table->string('certificate');
             $table->string('color');
-            $table->date('date_birth')->nullable();
-            $table->string('weight')->nullable();
-            $table->text('description')->nullable();
-            $table->string('image')->nullable();
+            $table->date('date_birth');
+            $table->string('weight');
+            $table->text('description');
+            $table->string('image');
             $table->unsignedBigInteger('categories_id')->default(1);
             $table->foreign('categories_id')->references('id')->on('categories');
             $table->timestamps();
