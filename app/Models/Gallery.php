@@ -15,6 +15,6 @@ class Gallery extends Model
 
     public function pet()
     {
-        return $this->belongsTo(Pet::class, 'pet_id'); # pet_id adalah foreign key
+        return $this->belongsTo(Pet::class, 'pet_id');
     }
 }

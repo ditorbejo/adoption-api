@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('certificate');
             $table->string('color');
             $table->date('date_birth');
-            $table->string('weight');
+            $table->unsignedBigInteger('weight');
             $table->text('description');
             $table->string('image');
             $table->unsignedBigInteger('categories_id')->default(1);

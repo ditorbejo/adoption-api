@@ -22,7 +22,7 @@ class ChatsController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $data = Message::all();
         $result = ChatsResource::collection($data);
@@ -76,7 +76,7 @@ class ChatsController extends Controller
         return $this->sendResponse($result, 'Pesan Terkirim');
     }
 
-    public function getAllUser(Request $request)
+    public function getAllUser()
     {
         // $user = User::whereHas('messages', function($query) {
         //     $query->where('admin_id',null);
