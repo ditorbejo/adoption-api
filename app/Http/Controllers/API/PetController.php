@@ -127,6 +127,7 @@ class PetController extends Controller
             'name' => $request->name, 
             'gender'=> $request->gender, 
             'certificate'=> $request->certificate, 
+            'status_adopt'=> $request->status_adopt,
             'color'=> $request->color,
             'categories_id' => $request->categories_id, 
             'date_birth' => $request->date_birth,
@@ -146,8 +147,9 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        $result = Gallery::where('pet_id',$pet->id)->delete();
-        $pet->delete();
+      
+            $result = Gallery::where('pet_id',$pet->id)->delete();
+            $pet->delete();
         return $this->sendResponse($result, 'data berhasil dihapus');
     }
     public function getAllColor()

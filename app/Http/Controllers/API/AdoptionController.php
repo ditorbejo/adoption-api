@@ -112,6 +112,7 @@ class AdoptionController extends Controller
      */
     public function destroy(Adoption $adoption)
     {
+        $adoption->pet()->update(['status_adopt'=>'ready']);
         $result = $adoption->delete();
         return $this->sendResponse($result, 'Data form adopt berhasil dihapus');
     }
